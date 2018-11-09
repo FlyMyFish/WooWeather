@@ -41,6 +41,17 @@ public class CityDes {
     @ColumnInfo(name = "longitude")
     private String longitude;
 
+    @ColumnInfo(name = "timestamp")
+    private long timestamp;
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
     @Nullable
     public String getName() {
         return name;
@@ -97,6 +108,7 @@ public class CityDes {
         this.street = street;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.timestamp = (System.currentTimeMillis() / 1000);
     }
 
     public boolean isEmpty() {

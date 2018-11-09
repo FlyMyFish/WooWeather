@@ -153,4 +153,19 @@ public class CityDesRepository implements CityDesSource {
     public void refreshCityDes() {
         mCacheIsDirty = true;
     }
+
+    @Override
+    public void getRecentCityDes(@NonNull final LoadCityDesCallBack loadCityDesCallBack) {
+        mCityDesLocalSource.getRecentCityDes(new LoadCityDesCallBack() {
+            @Override
+            public void onCityDesLoaded(CityDes cityDes) {
+                loadCityDesCallBack.onCityDesLoaded(cityDes);
+            }
+
+            @Override
+            public void onNoDataAvailable(String msg) {
+                loadCityDesCallBack.onNoDataAvailable(msg);
+            }
+        });
+    }
 }

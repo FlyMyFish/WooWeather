@@ -7,6 +7,8 @@ import com.shichen.wooweather.data.CityDes;
 import com.shichen.wooweather.data.source.CityDesSource;
 import com.shichen.wooweather.utils.AppExecutors;
 
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -64,6 +66,7 @@ public class CityDesLocalSource implements CityDesSource {
         Runnable saveRunnable = new Runnable() {
             @Override
             public void run() {
+                cityDes.setTimestamp((System.currentTimeMillis() / 1000));
                 mCityDesDao.insertCityDes(cityDes);
             }
         };
@@ -75,6 +78,7 @@ public class CityDesLocalSource implements CityDesSource {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                cityDes.setTimestamp((System.currentTimeMillis() / 1000));
                 mCityDesDao.updateCityDes(cityDes);
             }
         };
@@ -100,5 +104,54 @@ public class CityDesLocalSource implements CityDesSource {
     @Override
     public void refreshCityDes() {
 
+    }
+
+    @Override
+    public void getRecentCityDes(@NonNull final LoadCityDesCallBack loadCityDesCallBack) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final List<CityDes> cityDesList = mCityDesDao.getAllCityDes();
+                if (cityDesList == null) {
+                    mAppExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadCityDesCallBack.onNoDataAvailable("数据库中没有城市");
+                        }
+                    });
+                } else if (cityDesList.size() == 0) {
+                    mAppExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadCityDesCallBack.onNoDataAvailable("数据库中没有城市");
+                        }
+                    });
+                } else if (cityDesList.size() == 1) {
+                    mAppExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadCityDesCallBack.onCityDesLoaded(cityDesList.get(0));
+                        }
+                    });
+                } else {
+                    int maxT = 0;
+                    for (int i = 0; i < cityDesList.size() - 1; i++) {
+                        if (cityDesList.get(i).getTimestamp() > cityDesList.get(i + 1).getTimestamp()) {
+                            maxT = i;
+                        } else {
+                            maxT = i + 1;
+                        }
+                    }
+                    final CityDes cityDes = cityDesList.get(maxT);
+                    mAppExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            loadCityDesCallBack.onCityDesLoaded(cityDes);
+                        }
+                    });
+                }
+            }
+        };
+        mAppExecutors.diskIO().execute(runnable);
     }
 }

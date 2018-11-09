@@ -167,4 +167,9 @@ public class CityDesRemoteSource implements CityDesSource {
     public void refreshCityDes() {
 
     }
+
+    @Override
+    public void getRecentCityDes(@NonNull LoadCityDesCallBack loadCityDesCallBack) {
+
+    }
 }

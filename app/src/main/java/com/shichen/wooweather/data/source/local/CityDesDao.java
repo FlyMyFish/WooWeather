@@ -9,6 +9,8 @@ import android.support.annotation.NonNull;
 
 import com.shichen.wooweather.data.CityDes;
 
+import java.util.List;
+
 /**
  * @author shichen 754314442@qq.com
  * Created by Administrator on 2018/11/7.
@@ -44,4 +46,7 @@ public interface CityDesDao {
      */
     @Query("DELETE FROM cityDes WHERE queryStr = :query")
     int deleteCityDes(@NonNull String query);
+
+    @Query("SELECT * FROM cityDes")
+    List<CityDes> getAllCityDes();
 }

@@ -17,6 +17,8 @@ public interface CityDesSource {
 
     void getCityDes(@NonNull String query, @NonNull LoadCityDesCallBack loadCityDesCallBack);
 
+    void getRecentCityDes(@NonNull LoadCityDesCallBack loadCityDesCallBack);
+
     void saveCityDes(CityDes cityDes);
 
     void updateCityDes(CityDes cityDes);

@@ -48,11 +48,7 @@ android {
         }
     }
     flavorDimensions "default"
-    repositories{
-        flatDir{
-            dirs 'libs'
-        }
-    }
+
     // If you need to add more flavors, consider using flavor dimensions.
     productFlavors {
         mock {
@@ -79,6 +75,11 @@ android {
     }
     dataBinding {
         enabled = true
+    }
+    sourceSets{
+        main{
+            jniLibs.srcDirs=['libs']
+        }
     }
 }
 

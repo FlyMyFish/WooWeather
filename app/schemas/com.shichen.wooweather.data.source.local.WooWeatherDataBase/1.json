@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "61a2462e47d3cd82fee3e51ddd84159f",
+    "identityHash": "5f0822c709ccb9e173b532f5a68b0f50",
     "entities": [
       {
         "tableName": "cityDes",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`queryStr` TEXT NOT NULL, `name` TEXT, `street` TEXT, `latitude` TEXT NOT NULL, `longitude` TEXT NOT NULL, PRIMARY KEY(`queryStr`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`queryStr` TEXT NOT NULL, `name` TEXT, `street` TEXT, `latitude` TEXT NOT NULL, `longitude` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`queryStr`))",
         "fields": [
           {
             "fieldPath": "queryStr",
@@ -36,6 +36,12 @@
             "fieldPath": "longitude",
             "columnName": "longitude",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -119,7 +125,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"61a2462e47d3cd82fee3e51ddd84159f\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5f0822c709ccb9e173b532f5a68b0f50\")"
     ]
   }
 }
