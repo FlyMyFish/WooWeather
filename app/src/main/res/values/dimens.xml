@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cityName">24dp</dimen>
+    <dimen name="areaName">12dp</dimen>
+    <dimen name="streetName">12dp</dimen>
+    <dimen name="cityNameMarginTop">42dp</dimen>
+    <dimen name="cityNameMarginLeft">12dp</dimen>
+    <dimen name="areaNameMarginLeft">6dp</dimen>
+    <dimen name="currentlyMarginTop">42dp</dimen>
+    <dimen name="currentlyMarginRight">12dp</dimen>
+    <dimen name="currentlyDesPadding">4dp</dimen>
+    <dimen name="airTem">38dp</dimen>
+    <dimen name="feelTem">12dp</dimen>
+</resources>

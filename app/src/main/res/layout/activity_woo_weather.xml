@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,33 +8,39 @@
             type="com.shichen.wooweather.weather.WooWeatherViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/colorPrimaryDark">
 
-        <EditText
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="输入一个地名(拼音)"
-            android:text="@={viewmodel.query}"
-            android:textColor="@color/colorPrimaryDark"
-            android:textColorHint="@color/colorPrimary"
-            android:textSize="16dp" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{viewmodel.mCityDes.get().toString()}"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16dp" />
+            <TextView
+                android:id="@+id/tv_city_name"
+                style="@style/CityName"
+                android:layout_marginLeft="@dimen/cityNameMarginLeft"
+                android:layout_marginTop="@dimen/cityNameMarginTop"
+                android:text="@{viewmodel.mCityDes.get().queryStr}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{() -> viewmodel.searchCity()}"
-            android:text="搜索"
-            android:textColor="@color/colorAccent"
-            android:textSize="18dp" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_area_name"
+                style="@style/AreaName"
+                android:layout_marginLeft="@dimen/areaNameMarginLeft"
+                android:text="@{viewmodel.mCityDes.get().name}"
+                app:layout_constraintLeft_toRightOf="@id/tv_city_name"
+                app:layout_constraintTop_toTopOf="@id/tv_city_name" />
+
+            <TextView
+                style="@style/StreetName"
+                android:text="@{viewmodel.mCityDes.get().street}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_city_name"
+                app:layout_constraintLeft_toLeftOf="@id/tv_area_name" />
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </layout>

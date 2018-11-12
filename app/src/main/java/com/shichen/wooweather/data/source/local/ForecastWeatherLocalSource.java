@@ -40,7 +40,23 @@ public class ForecastWeatherLocalSource implements ForecastWeatherSource {
                 if (forecastWeather != null) {
                     callBack.onLoaded(forecastWeather);
                 } else {
-                    callBack.onDataNotAvailable("没有从数据空中搜索到，该城市的相关天气");
+                    callBack.onDataNotAvailable("没有从数据库中搜索到，该城市的相关天气");
+                }
+            }
+        };
+        mAppExecutors.diskIO().execute(runnable);
+    }
+
+    @Override
+    public void loadForecastWeather(@NonNull final String query, String lat, String lon, final LoadWeatherCallBack callBack) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                ForecastWeather forecastWeather = mForecastWeatherDao.getForecastWeather(query);
+                if (forecastWeather != null) {
+                    callBack.onLoaded(forecastWeather);
+                } else {
+                    callBack.onDataNotAvailable("没有从数据库中搜索到，该城市的相关天气");
                 }
             }
         };
@@ -52,6 +68,7 @@ public class ForecastWeatherLocalSource implements ForecastWeatherSource {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                forecastWeather.setTimestemp((System.currentTimeMillis() / 1000));
                 mForecastWeatherDao.insertForecastWeather(forecastWeather);
             }
         };
@@ -63,6 +80,7 @@ public class ForecastWeatherLocalSource implements ForecastWeatherSource {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                forecastWeather.setTimestemp((System.currentTimeMillis() / 1000));
                 mForecastWeatherDao.updateForecastWeather(forecastWeather);
             }
         };

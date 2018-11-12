@@ -20,6 +20,8 @@ public interface ForecastWeatherSource {
      */
     void loadForecastWeather(@NonNull String query, LoadWeatherCallBack callBack);
 
+    void loadForecastWeather(@NonNull String query, String lat, String lon,LoadWeatherCallBack callBack);
+
     void saveForecastWeather(ForecastWeather forecastWeather);
 
     void updateForecastWeather(ForecastWeather forecastWeather);

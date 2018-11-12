@@ -7,6 +7,7 @@ import java.util.List;
  * Created by Administrator on 2018/11/7.
  */
 public class DailyBean {
+    //概览
     private String summary;
     private String icon;
     private List<DataBean> data;
@@ -38,44 +39,99 @@ public class DailyBean {
     public static class DataBean {
 
         private int time;
+        //概览
         private String summary;
         private String icon;
+        //太阳升起时间
         private int sunriseTime;
+        //太阳落山时间
         private int sunsetTime;
+        //0-新月 0.25-上弦月 0.5-满月 0.75-下弦月
         private double moonPhase;
+        //降水量
         private double precipIntensity;
+        //降水量的分布
+        private String precipIntensityError;
+        //一天中的最高降水量
         private double precipIntensityMax;
+        //一天中最高降水量的时间
         private int precipIntensityMaxTime;
+        //降水发生的概率 0-1
         private double precipProbability;
+        //rain-雨 snow-雪 sleet-雨夹雪
         private String precipType;
+        //气温最高温
         private double temperatureHigh;
+        //气温最高的时间
         private int temperatureHighTime;
+        //气温最低温
         private double temperatureLow;
+        //最低温的时间
         private int temperatureLowTime;
+        //体感温度，当天最高
         private double apparentTemperatureHigh;
+        //体感温度，当天最高时的时间
         private int apparentTemperatureHighTime;
+        //体感温度，当天最低
         private double apparentTemperatureLow;
+        //体感温度，当天最低时的时间
         private int apparentTemperatureLowTime;
+        //露珠
         private double dewPoint;
+        //空气湿度 between 0 and 1
         private double humidity;
+        //海平面空气压力 单位:毫巴
         private double pressure;
+        //风速为每小时英里
         private double windSpeed;
+        //风速每小时英里数
         private double windGust;
+        //风速最大时，一天中的时间
         private int windGustTime;
+        //风向 0°是正北方，顺时针前进（如果风速为零，则此值将不被定义。）
         private int windBearing;
+        //The percentage of sky occluded by clouds, between 0 and 1, inclusive.
         private double cloudCover;
+        //紫外线指数
         private int uvIndex;
+        //紫外线指数最大时的时间
         private int uvIndexTime;
+        //能见度
         private double visibility;
+        //臭氧密度
         private double ozone;
         private double temperatureMin;
         private int temperatureMinTime;
+        //deprecated
         private double temperatureMax;
+        //deprecated
         private int temperatureMaxTime;
+        //deprecated
         private double apparentTemperatureMin;
+        //deprecated
         private int apparentTemperatureMinTime;
+        //deprecated
         private double apparentTemperatureMax;
+        //deprecated
         private int apparentTemperatureMaxTime;
+        //降雪量
+        private String precipAccumulation;
+
+        public String getPrecipAccumulation() {
+            return precipAccumulation;
+        }
+
+        public void setPrecipAccumulation(String precipAccumulation) {
+            this.precipAccumulation = precipAccumulation;
+        }
+
+        public String getPrecipIntensityError() {
+            return precipIntensityError;
+        }
+
+        public void setPrecipIntensityError(String precipIntensityError) {
+            this.precipIntensityError = precipIntensityError;
+        }
 
         public int getTime() {
             return time;

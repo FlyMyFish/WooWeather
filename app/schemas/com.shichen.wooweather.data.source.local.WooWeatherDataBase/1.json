@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5f0822c709ccb9e173b532f5a68b0f50",
+    "identityHash": "2866ba34c754a281f65a666ebe6db859",
     "entities": [
       {
         "tableName": "cityDes",
@@ -56,7 +56,7 @@
       },
       {
         "tableName": "weather",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`queryStr` TEXT NOT NULL, `latitude` TEXT NOT NULL, `longitude` TEXT NOT NULL, `timezone` TEXT NOT NULL, `currently` TEXT, `hourly` TEXT, `daily` TEXT, `flags` TEXT, `offset` INTEGER NOT NULL, PRIMARY KEY(`queryStr`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`queryStr` TEXT NOT NULL, `latitude` TEXT NOT NULL, `longitude` TEXT NOT NULL, `timezone` TEXT NOT NULL, `currently` TEXT, `hourly` TEXT, `daily` TEXT, `flags` TEXT, `offset` INTEGER NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`queryStr`))",
         "fields": [
           {
             "fieldPath": "queryStr",
@@ -111,6 +111,12 @@
             "columnName": "offset",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "timestemp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -125,7 +131,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5f0822c709ccb9e173b532f5a68b0f50\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"2866ba34c754a281f65a666ebe6db859\")"
     ]
   }
 }

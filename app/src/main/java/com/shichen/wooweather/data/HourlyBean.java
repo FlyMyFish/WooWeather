@@ -55,7 +55,15 @@ public class HourlyBean {
         private double visibility;
         private double ozone;
         private String precipType;
+        private String precipAccumulation;
 
+        public String getPrecipAccumulation() {
+            return precipAccumulation;
+        }
+
+        public void setPrecipAccumulation(String precipAccumulation) {
+            this.precipAccumulation = precipAccumulation;
+        }
         public int getTime() {
             return time;
         }

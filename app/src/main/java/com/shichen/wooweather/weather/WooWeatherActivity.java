@@ -4,6 +4,7 @@ import android.Manifest;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,13 +13,19 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.shichen.wooweather.R;
 import com.shichen.wooweather.SnackbarMessage;
 import com.shichen.wooweather.ViewModelFactory;
+import com.shichen.wooweather.data.CurrentlyBean;
 import com.shichen.wooweather.databinding.ActivityWooWeatherBinding;
 import com.shichen.wooweather.utils.SnackbarUtils;
+import com.shichen.wooweather.utils.StatusUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +76,8 @@ public class WooWeatherActivity extends AppCompatActivity {
                     needRequestPermissonList.toArray(
                             new String[needRequestPermissonList.size()]),
                     PERMISSON_REQUESTCODE);
+        } else {
+            mWooWeatherViewModel.start();
         }
     }
 
@@ -127,13 +136,17 @@ public class WooWeatherActivity extends AppCompatActivity {
 
     private WooWeatherViewModel mWooWeatherViewModel;
     private ActivityWooWeatherBinding mActivityWooWeatherBinding;
+    private CurrentlyAdapter currentlyAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivityWooWeatherBinding = DataBindingUtil.setContentView(this, R.layout.activity_woo_weather);
+        StatusUtil.setUseStatusBarColor(this, Color.TRANSPARENT);
+        StatusUtil.setSystemStatus(this, true, false);
         mWooWeatherViewModel = obtainViewModel(this);
         mActivityWooWeatherBinding.setViewmodel(mWooWeatherViewModel);
+        setupListAdapter();
         setupSnackbar();
     }
 
@@ -145,6 +158,13 @@ public class WooWeatherActivity extends AppCompatActivity {
                 ViewModelProviders.of(activity, factory).get(WooWeatherViewModel.class);
 
         return viewModel;
+    }
+
+    private void setupListAdapter(){
+        RecyclerView recyclerView=mActivityWooWeatherBinding.rvCurrently;
+        currentlyAdapter=new CurrentlyAdapter(new ArrayList<CurrentlyBean.DesAndValue>());
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(currentlyAdapter);
     }
 
     private void setupSnackbar() {
@@ -159,5 +179,30 @@ public class WooWeatherActivity extends AppCompatActivity {
                 SnackbarUtils.showSnackbar(mActivityWooWeatherBinding.getRoot(), msg);
             }
         });
+    }
+
+    //记录用户首次点击返回键的时间
+    private long firstTime = 0;
+
+    /**
+     * 第二种办法
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            long secondTime = System.currentTimeMillis();
+            if (secondTime - firstTime > 2000) {
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                firstTime = secondTime;
+                return true;
+            } else {
+                System.exit(0);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

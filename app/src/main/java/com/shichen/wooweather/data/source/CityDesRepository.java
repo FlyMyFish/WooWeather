@@ -54,7 +54,7 @@ public class CityDesRepository implements CityDesSource {
                 loadCityDesCallBack.onCityDesLoaded(mCachedCityDess.get(query));
             } else {
                 EspressoIdlingResource.increment();
-                getTasksFromRemoteDataSource(query, loadCityDesCallBack);
+                getCityDesFromRemoteDataSource(query, loadCityDesCallBack);
             }
             return;
         }
@@ -63,7 +63,7 @@ public class CityDesRepository implements CityDesSource {
 
         if (mCacheIsDirty) {
             // If the cache is dirty we need to fetch new data from the network.
-            getTasksFromRemoteDataSource(query, loadCityDesCallBack);
+            getCityDesFromRemoteDataSource(query, loadCityDesCallBack);
         } else {
             // Query the local storage if available. If not, query the network.
             mCityDesLocalSource.getCityDes(query, new LoadCityDesCallBack() {
@@ -77,14 +77,14 @@ public class CityDesRepository implements CityDesSource {
 
                 @Override
                 public void onNoDataAvailable(String msg) {
-                    getTasksFromRemoteDataSource(query, loadCityDesCallBack);
+                    getCityDesFromRemoteDataSource(query, loadCityDesCallBack);
 
                 }
             });
         }
     }
 
-    private void getTasksFromRemoteDataSource(@NonNull final String query, @NonNull final LoadCityDesCallBack callback) {
+    private void getCityDesFromRemoteDataSource(@NonNull final String query, @NonNull final LoadCityDesCallBack callback) {
         mCityDesRemoteSource.getCityDes(query, new LoadCityDesCallBack() {
             @Override
             public void onCityDesLoaded(CityDes cityDes) {

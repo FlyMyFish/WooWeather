@@ -3,16 +3,25 @@ package com.shichen.wooweather.weather;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.databinding.ObservableList;
 import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.shichen.wooweather.SingleLiveEvent;
 import com.shichen.wooweather.SnackbarMessage;
 import com.shichen.wooweather.data.CityDes;
+import com.shichen.wooweather.data.CurrentlyBean;
+import com.shichen.wooweather.data.ForecastWeather;
 import com.shichen.wooweather.data.source.CityDesRepository;
 import com.shichen.wooweather.data.source.CityDesSource;
+import com.shichen.wooweather.data.source.ForecastWeatherRepository;
+import com.shichen.wooweather.data.source.ForecastWeatherSource;
+import com.shichen.wooweather.utils.GsonUtils;
 import com.shichen.wooweather.utils.LocationHelper;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author shichen 754314442@qq.com
@@ -22,15 +31,20 @@ public class WooWeatherViewModel extends AndroidViewModel {
     private final Context mContext;
     private final LocationHelper mLocationHelper;
     private final CityDesRepository mCityDesRepository;
+    private final ForecastWeatherRepository mForecastWeatherRepository;
     private final SnackbarMessage mSnackbarText = new SnackbarMessage();
     private final SingleLiveEvent<Void> mNewTaskEvent = new SingleLiveEvent<>();
     public final ObservableField<CityDes> mCityDes = new ObservableField<>();
+    public final ObservableField<ForecastWeather> mForecastWeather = new ObservableField<>();
+    public final ObservableField<CurrentlyBean> mCurrentlyBean = new ObservableField<>();
+    public final ObservableList<CurrentlyBean.DesAndValue> mDesAndValueList=new ObservableArrayList<>();
     public final ObservableField<String> query = new ObservableField<>();
 
-    public WooWeatherViewModel(@NonNull Application application, CityDesRepository mCityDesRepository) {
+    public WooWeatherViewModel(@NonNull Application application, CityDesRepository mCityDesRepository, ForecastWeatherRepository mForecastWeatherRepository) {
         super(application);
         this.mContext = application.getApplicationContext();
         this.mCityDesRepository = mCityDesRepository;
+        this.mForecastWeatherRepository = mForecastWeatherRepository;
         this.mLocationHelper = LocationHelper.getInstance((Application) mContext);
     }
 
@@ -38,8 +52,7 @@ public class WooWeatherViewModel extends AndroidViewModel {
         mLocationHelper.setLocationCallback(new LocationHelper.LocationCallback() {
             @Override
             public void onSuccess(CityDes cityDes) {
-                mCityDes.set(cityDes);
-                mCityDesRepository.saveCityDes(cityDes);
+                readCitySuccess(cityDes);
                 mLocationHelper.stop();
             }
 
@@ -52,12 +65,11 @@ public class WooWeatherViewModel extends AndroidViewModel {
         mLocationHelper.start();
     }
 
-    public void readCityFromLocal(){
+    private void readCityFromLocal() {
         mCityDesRepository.getRecentCityDes(new CityDesSource.LoadCityDesCallBack() {
             @Override
             public void onCityDesLoaded(CityDes cityDes) {
-                mCityDes.set(cityDes);
-                mCityDesRepository.saveCityDes(cityDes);
+                readCitySuccess(cityDes);
             }
 
             @Override
@@ -67,16 +79,27 @@ public class WooWeatherViewModel extends AndroidViewModel {
         });
     }
 
-    public void searchCity() {
-        mCityDesRepository.getCityDes(query.get(), new CityDesSource.LoadCityDesCallBack() {
+    private void readCitySuccess(CityDes cityDes) {
+        mCityDes.set(cityDes);
+        mCityDesRepository.saveCityDes(cityDes);
+        getWeatherData();
+    }
+
+    public void getWeatherData() {
+        CityDes curCityDes = mCityDes.get();
+        checkNotNull(curCityDes);
+        mForecastWeatherRepository.loadForecastWeather(curCityDes.getQueryStr(), curCityDes.getLatitude(), curCityDes.getLongitude(), new ForecastWeatherSource.LoadWeatherCallBack() {
             @Override
-            public void onCityDesLoaded(CityDes cityDes) {
-                mCityDes.set(cityDes);
+            public void onLoaded(ForecastWeather forecastWeather) {
+                mForecastWeather.set(forecastWeather);
+                CurrentlyBean currentlyBean=GsonUtils.getInstance().get().fromJson(forecastWeather.getCurrently(), CurrentlyBean.class);
+                mCurrentlyBean.set(currentlyBean);
+                mDesAndValueList.clear();
+                mDesAndValueList.addAll(mCurrentlyBean.get().desAndValueList());
             }
 
-
             @Override
-            public void onNoDataAvailable(String msg) {
+            public void onDataNotAvailable(String msg) {
                 mSnackbarText.setValue(msg);
             }
         });

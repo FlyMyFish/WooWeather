@@ -44,6 +44,16 @@ public class ForecastWeather {
     private String flags;
     @ColumnInfo(name = "offset")
     private int offset;
+    @ColumnInfo(name = "timestamp")
+    private long timestemp;
+
+    public long getTimestemp() {
+        return timestemp;
+    }
+
+    public void setTimestemp(long timestemp) {
+        this.timestemp = timestemp;
+    }
 
     @NonNull
     public String getQueryStr() {
@@ -140,6 +150,7 @@ public class ForecastWeather {
         this.daily = daily;
         this.flags = flags;
         this.offset = offset;
+        this.timestemp = (System.currentTimeMillis() / 1000);
     }
 
     public boolean isEmpty() {
@@ -166,7 +177,7 @@ public class ForecastWeather {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(queryStr, latitude, longitude,timezone,currently,hourly,daily,flags);
+        return Objects.hashCode(queryStr, latitude, longitude, timezone, currently, hourly, daily, flags);
     }
 
     @Override

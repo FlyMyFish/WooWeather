@@ -8,9 +8,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.shichen.wooweather.data.source.CityDesRepository;
+import com.shichen.wooweather.data.source.ForecastWeatherRepository;
 import com.shichen.wooweather.data.source.local.CityDesLocalSource;
+import com.shichen.wooweather.data.source.local.ForecastWeatherLocalSource;
 import com.shichen.wooweather.data.source.local.WooWeatherDataBase;
 import com.shichen.wooweather.data.source.remote.CityDesRemoteSource;
+import com.shichen.wooweather.data.source.remote.ForecastWeatherRemoteSource;
 import com.shichen.wooweather.utils.AppExecutors;
 import com.shichen.wooweather.weather.WooWeatherViewModel;
 
@@ -23,6 +26,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     private static volatile ViewModelFactory INSTANCE;
     private final Application mApplication;
     private final CityDesRepository mCityDesRepository;
+    private final ForecastWeatherRepository mForecastWeatherRepository;
 
     public static ViewModelFactory getInstance(Application application) {
         if (INSTANCE == null) {
@@ -31,7 +35,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
                     WooWeatherDataBase dataBase = WooWeatherDataBase.getInstance(application);
                     INSTANCE = new ViewModelFactory(application,
                             CityDesRepository.getInstance(CityDesLocalSource.getInstance(new AppExecutors(), dataBase.cityDesDao()),
-                                    CityDesRemoteSource.getInstance(new AppExecutors())));
+                                    CityDesRemoteSource.getInstance(new AppExecutors())),
+                            ForecastWeatherRepository.getInstance(ForecastWeatherLocalSource.getInstance(dataBase.forecastWeatherDao(), new AppExecutors()),
+                                    ForecastWeatherRemoteSource.getInstance(new AppExecutors())));
                 }
             }
         }
@@ -43,16 +49,17 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         INSTANCE = null;
     }
 
-    private ViewModelFactory(Application application, CityDesRepository cityDesRepository) {
+    private ViewModelFactory(Application application, CityDesRepository cityDesRepository, ForecastWeatherRepository forecastWeatherRepository) {
         mApplication = application;
         mCityDesRepository = cityDesRepository;
+        mForecastWeatherRepository = forecastWeatherRepository;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(WooWeatherViewModel.class)) {
-            return (T) new WooWeatherViewModel(mApplication, mCityDesRepository);
+            return (T) new WooWeatherViewModel(mApplication, mCityDesRepository, mForecastWeatherRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }
