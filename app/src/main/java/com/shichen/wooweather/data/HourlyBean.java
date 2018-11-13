@@ -1,6 +1,10 @@
 package com.shichen.wooweather.data;
 
+import com.shichen.wooweather.utils.DoubleUtils;
+
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author shichen 754314442@qq.com
@@ -37,20 +41,65 @@ public class HourlyBean {
 
     public static class DataBean {
 
+        public String displayTime() {
+            long temp = (long) time * 1000;
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.CHINA);
+            return sdf.format(temp);
+        }
+
+        public String displayTemperature() {
+            return DoubleUtils.removePointUp(temperature) + "℃";
+        }
+
+        public String displayWindSpeed() {
+            return windSpeed + "m/s";
+        }
+
+        public String displayHumidity() {
+            return DoubleUtils.removePointUp(humidity * 100) + "%";
+        }
+
+        public String displayVisibility() {
+            return DoubleUtils.removePointUp(visibility) + "km";
+        }
+
+        public String displayCloudCover() {
+            return DoubleUtils.removePointUp(cloudCover * 100) + "%";
+        }
+
+        public String displayUV(){
+            if (uvIndex<=2){
+                return "低";
+            }else if (uvIndex<=5){
+                return "中等";
+            }else if (uvIndex<=7){
+                return "高";
+            }else if (uvIndex<=10){
+                return "很高";
+            }else {
+                return "极高";
+            }
+        }
+
+        public int getIconResId() {
+            return CurrentlyBean.parseIcon(icon);
+        }
+
         private int time;
         private String summary;
         private String icon;
-        private int precipIntensity;
-        private int precipProbability;
+        private double precipIntensity;
+        private double precipProbability;
         private double temperature;
         private double apparentTemperature;
         private double dewPoint;
         private double humidity;
         private double pressure;
-        private int windSpeed;
-        private int windGust;
+        private double windSpeed;
+        private double windGust;
         private int windBearing;
         private double cloudCover;
+        //紫外线指数:0-2:低;3-5:中等;6-7:高;8-10:很高;>=11:极高;
         private int uvIndex;
         private double visibility;
         private double ozone;
@@ -64,6 +113,7 @@ public class HourlyBean {
         public void setPrecipAccumulation(String precipAccumulation) {
             this.precipAccumulation = precipAccumulation;
         }
+
         public int getTime() {
             return time;
         }
@@ -88,19 +138,19 @@ public class HourlyBean {
             this.icon = icon;
         }
 
-        public int getPrecipIntensity() {
+        public double getPrecipIntensity() {
             return precipIntensity;
         }
 
-        public void setPrecipIntensity(int precipIntensity) {
+        public void setPrecipIntensity(double precipIntensity) {
             this.precipIntensity = precipIntensity;
         }
 
-        public int getPrecipProbability() {
+        public double getPrecipProbability() {
             return precipProbability;
         }
 
-        public void setPrecipProbability(int precipProbability) {
+        public void setPrecipProbability(double precipProbability) {
             this.precipProbability = precipProbability;
         }
 
@@ -144,19 +194,19 @@ public class HourlyBean {
             this.pressure = pressure;
         }
 
-        public int getWindSpeed() {
+        public double getWindSpeed() {
             return windSpeed;
         }
 
-        public void setWindSpeed(int windSpeed) {
+        public void setWindSpeed(double windSpeed) {
             this.windSpeed = windSpeed;
         }
 
-        public int getWindGust() {
+        public double getWindGust() {
             return windGust;
         }
 
-        public void setWindGust(int windGust) {
+        public void setWindGust(double windGust) {
             this.windGust = windGust;
         }
 

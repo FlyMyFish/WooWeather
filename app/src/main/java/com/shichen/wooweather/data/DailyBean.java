@@ -1,6 +1,13 @@
 package com.shichen.wooweather.data;
 
+import com.shichen.wooweather.utils.DoubleUtils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author shichen 754314442@qq.com
@@ -84,7 +91,7 @@ public class DailyBean {
         private double pressure;
         //风速为每小时英里
         private double windSpeed;
-        //风速每小时英里数
+        //阵风风速每小时英里数
         private double windGust;
         //风速最大时，一天中的时间
         private int windGustTime;
@@ -443,6 +450,33 @@ public class DailyBean {
 
         public void setApparentTemperatureMaxTime(int apparentTemperatureMaxTime) {
             this.apparentTemperatureMaxTime = apparentTemperatureMaxTime;
+        }
+
+        public String getTemDes() {
+            return DoubleUtils.removePointUp(temperatureLow) + "℃ << " + DoubleUtils.removePointUp(temperatureHigh) + "℃";
+        }
+
+        public String getDateFromTemp() {
+            long temp = (long) time * 1000;
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+            String[] weekDays = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
+            Calendar cal = Calendar.getInstance(); // 获得一个日历
+            String timeStr = sdf.format(temp);
+            Date date;
+            try {
+                date = sdf.parse(timeStr);
+                cal.setTime(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            int w = cal.get(Calendar.DAY_OF_WEEK) - 1; // 指示一个星期中的某天。
+            if (w < 0)
+                w = 0;
+            return weekDays[w];
+        }
+
+        public int getIconResId() {
+            return CurrentlyBean.parseIcon(icon);
         }
     }
 }

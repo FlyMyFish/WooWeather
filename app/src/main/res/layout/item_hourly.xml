@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="hourly"
+            type="com.shichen.wooweather.data.HourlyBean.DataBean" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_hour"
+            style="@style/dailyDes"
+            android:text="@{hourly.displayTime()}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_weather"
+            android:layout_width="@dimen/dailyWeatherIconSize"
+            android:layout_height="@dimen/dailyWeatherIconSize"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_hour"
+            app:vectorResId="@{hourly.getIconResId()}" />
+
+        <TextView
+            android:id="@+id/tv_air_tem"
+            style="@style/dailyDes"
+            android:text="@{hourly.displayTemperature()}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_weather" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_wind_speed"
+            android:layout_width="@dimen/dailyListWindSpeedSize"
+            android:layout_height="@dimen/dailyListWindSpeedSize"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_wind_speed"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_wind_speed"
+            app:layout_constraintTop_toTopOf="@+id/tv_wind_speed"
+            app:srcCompat="@drawable/ic_wind_speed" />
+
+        <TextView
+            android:id="@+id/tv_wind_speed"
+            style="@style/dailyDes"
+            android:text="@{hourly.displayWindSpeed()}"
+            app:layout_constraintLeft_toRightOf="@+id/iv_wind_speed"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_air_tem" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_humidity"
+            android:layout_width="@dimen/dailyListWindSpeedSize"
+            android:layout_height="@dimen/dailyListWindSpeedSize"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_humidity"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_humidity"
+            app:layout_constraintTop_toTopOf="@+id/tv_humidity"
+            app:srcCompat="@drawable/ic_humidity" />
+
+        <TextView
+            android:id="@+id/tv_humidity"
+            style="@style/dailyDes"
+            android:text="@{hourly.displayHumidity()}"
+            app:layout_constraintLeft_toRightOf="@+id/iv_humidity"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_wind_speed" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_visibility_dis"
+            android:layout_width="@dimen/dailyListWindSpeedSize"
+            android:layout_height="@dimen/dailyListWindSpeedSize"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_visibility_dis"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_visibility_dis"
+            app:layout_constraintTop_toTopOf="@+id/tv_visibility_dis"
+            app:srcCompat="@drawable/ic_visibility_miles" />
+
+        <TextView
+            android:id="@+id/tv_visibility_dis"
+            style="@style/dailyDes"
+            android:text="@{hourly.displayVisibility()}"
+            app:layout_constraintLeft_toRightOf="@+id/iv_visibility_dis"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_humidity" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_cloud_cover"
+            android:layout_width="@dimen/dailyListWindSpeedSize"
+            android:layout_height="@dimen/dailyListWindSpeedSize"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_cloud_cover"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_cloud_cover"
+            app:layout_constraintTop_toTopOf="@+id/tv_cloud_cover"
+            app:srcCompat="@drawable/ic_weather_cloudy" />
+
+        <TextView
+            android:id="@+id/tv_cloud_cover"
+            style="@style/dailyDes"
+            android:text="@{hourly.displayCloudCover()}"
+            app:layout_constraintLeft_toRightOf="@+id/iv_cloud_cover"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_visibility_dis" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_uv_index"
+            android:layout_width="@dimen/dailyListWindSpeedSize"
+            android:layout_height="@dimen/dailyListWindSpeedSize"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_uv_index"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_uv_index"
+            app:layout_constraintTop_toTopOf="@+id/tv_uv_index"
+            app:srcCompat="@drawable/ic_wave" />
+
+        <TextView
+            android:id="@+id/tv_uv_index"
+            style="@style/dailyDes"
+            android:text="@{hourly.displayUV()}"
+            app:layout_constraintLeft_toRightOf="@+id/iv_uv_index"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cloud_cover" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

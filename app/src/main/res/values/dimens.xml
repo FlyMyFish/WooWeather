@@ -9,6 +9,20 @@
     <dimen name="currentlyMarginTop">42dp</dimen>
     <dimen name="currentlyMarginRight">12dp</dimen>
     <dimen name="currentlyDesPadding">4dp</dimen>
-    <dimen name="airTem">38dp</dimen>
+    <dimen name="airTem">68dp</dimen>
     <dimen name="feelTem">12dp</dimen>
+    <dimen name="humidityTem">12dp</dimen>
+    <dimen name="summaryDes">12dp</dimen>
+    <dimen name="airTemMarginTop">0dp</dimen>
+    <dimen name="summaryMarginLeft">6dp</dimen>
+    <dimen name="summaryMarginTop">20dp</dimen>
+    <dimen name="humidityMarginBottom">20dp</dimen>
+    <dimen name="weatherIconSize">56dp</dimen>
+    <dimen name="weatherIconMarginRight">12dp</dimen>
+    <dimen name="dailyWeatherIconSize">26dp</dimen>
+    <dimen name="dailyWeatherIconMargin">3dp</dimen>
+    <dimen name="dailyListMargin">12dp</dimen>
+    <dimen name="dailyListMarginTop">16dp</dimen>
+    <dimen name="dailyListWindSpeedSize">10dp</dimen>
+    <dimen name="titleSize">15dp</dimen>
 </resources>

@@ -113,7 +113,7 @@ public class ForecastWeatherRepository implements ForecastWeatherSource {
                 @Override
                 public void onLoaded(ForecastWeather forecastWeather) {
                     long currentTamp = (System.currentTimeMillis() / 1000);
-                    if (currentTamp - forecastWeather.getTimestemp() > 60 * 60 * 2) {
+                    if (currentTamp - forecastWeather.getTimestemp() > 60 * 60) {
                         EspressoIdlingResource.increment();
                         getForecastWeatherFromRemoteDataSource(query, lat, lon, callBack);
                     } else {

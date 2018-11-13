@@ -23,6 +23,8 @@ import com.shichen.wooweather.R;
 import com.shichen.wooweather.SnackbarMessage;
 import com.shichen.wooweather.ViewModelFactory;
 import com.shichen.wooweather.data.CurrentlyBean;
+import com.shichen.wooweather.data.DailyBean;
+import com.shichen.wooweather.data.HourlyBean;
 import com.shichen.wooweather.databinding.ActivityWooWeatherBinding;
 import com.shichen.wooweather.utils.SnackbarUtils;
 import com.shichen.wooweather.utils.StatusUtil;
@@ -136,7 +138,8 @@ public class WooWeatherActivity extends AppCompatActivity {
 
     private WooWeatherViewModel mWooWeatherViewModel;
     private ActivityWooWeatherBinding mActivityWooWeatherBinding;
-    private CurrentlyAdapter currentlyAdapter;
+    private DailyAdapter dailyAdapter;
+    private HourlyAdapter hourlyAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,10 +164,15 @@ public class WooWeatherActivity extends AppCompatActivity {
     }
 
     private void setupListAdapter(){
-        RecyclerView recyclerView=mActivityWooWeatherBinding.rvCurrently;
-        currentlyAdapter=new CurrentlyAdapter(new ArrayList<CurrentlyBean.DesAndValue>());
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(currentlyAdapter);
+        RecyclerView rvDaily=mActivityWooWeatherBinding.rvDaily;
+        dailyAdapter=new DailyAdapter(new ArrayList<DailyBean.DataBean>());
+        rvDaily.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        rvDaily.setAdapter(dailyAdapter);
+
+        RecyclerView rvHourly=mActivityWooWeatherBinding.rvHourly;
+        hourlyAdapter=new HourlyAdapter(new ArrayList<HourlyBean.DataBean>());
+        rvHourly.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        rvHourly.setAdapter(hourlyAdapter);
     }
 
     private void setupSnackbar() {

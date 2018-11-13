@@ -4,6 +4,7 @@ import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
 
 import com.shichen.wooweather.data.CurrentlyBean;
+import com.shichen.wooweather.data.DailyBean;
 
 import java.util.List;
 
@@ -11,13 +12,13 @@ import java.util.List;
  * @author shichen 754314442@qq.com
  * Created by Administrator on 2018/11/12.
  */
-public class CurrentlyBinding {
+public class DailyBinding {
     @SuppressWarnings("unchecked")
-    @BindingAdapter("app:currently")
-    public static void setCurrently(RecyclerView recyclerView, List<CurrentlyBean.DesAndValue> desAndValueList) {
-        CurrentlyAdapter adapter = (CurrentlyAdapter) recyclerView.getAdapter();
+    @BindingAdapter("app:daily")
+    public static void setDaily(RecyclerView recyclerView, List<DailyBean.DataBean> dataBeanList) {
+        DailyAdapter adapter = (DailyAdapter) recyclerView.getAdapter();
         if (adapter != null) {
-            adapter.replaceData(desAndValueList);
+            adapter.replaceData(dataBeanList);
         }
     }
 }

@@ -7,25 +7,56 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="CityName">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">@dimen/cityName</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="AreaName">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">@dimen/areaName</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="StreetName">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">@dimen/streetName</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-    <style name="CurrentlyDes" parent="StreetName">
+
+    <style name="dailyDes" parent="StreetName">
         <item name="android:padding">@dimen/currentlyDesPadding</item>
+    </style>
+
+    <style name="AirTem">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">@dimen/airTem</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="FeelTem">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">@dimen/feelTem</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Humidity">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">@dimen/humidityTem</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="SummaryDes">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">@dimen/summaryDes</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 </resources>

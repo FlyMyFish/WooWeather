@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="daily"
+            type="com.shichen.wooweather.data.DailyBean.DataBean" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_date"
+            style="@style/dailyDes"
+            android:text="@{daily.getDateFromTemp()}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_weather"
+            android:layout_width="@dimen/dailyWeatherIconSize"
+            android:layout_height="@dimen/dailyWeatherIconSize"
+            android:layout_marginLeft="@dimen/dailyWeatherIconMargin"
+            android:layout_marginRight="@dimen/dailyWeatherIconMargin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_date"
+            app:vectorResId="@{daily.getIconResId()}" />
+
+        <TextView
+            style="@style/dailyDes"
+            android:text="@{daily.getTemDes()}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_weather" />
+    </android.support.constraint.ConstraintLayout>
+</layout>
