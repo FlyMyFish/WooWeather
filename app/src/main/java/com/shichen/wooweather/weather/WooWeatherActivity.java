@@ -12,11 +12,13 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import com.shichen.wooweather.R;
@@ -26,6 +28,7 @@ import com.shichen.wooweather.data.CurrentlyBean;
 import com.shichen.wooweather.data.DailyBean;
 import com.shichen.wooweather.data.HourlyBean;
 import com.shichen.wooweather.databinding.ActivityWooWeatherBinding;
+import com.shichen.wooweather.utils.LogUtilsWoo;
 import com.shichen.wooweather.utils.SnackbarUtils;
 import com.shichen.wooweather.utils.StatusUtil;
 
@@ -37,6 +40,7 @@ import java.util.List;
  * Created by Administrator on 2018/11/8.
  */
 public class WooWeatherActivity extends AppCompatActivity {
+    private final String TAG = "WooWeatherActivity";
     /**
      * 需要进行检测的权限数组
      */
@@ -140,6 +144,7 @@ public class WooWeatherActivity extends AppCompatActivity {
     private ActivityWooWeatherBinding mActivityWooWeatherBinding;
     private DailyAdapter dailyAdapter;
     private HourlyAdapter hourlyAdapter;
+    private TodayAdapter todayAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -151,6 +156,18 @@ public class WooWeatherActivity extends AppCompatActivity {
         mActivityWooWeatherBinding.setViewmodel(mWooWeatherViewModel);
         setupListAdapter();
         setupSnackbar();
+        setUpWooWeatherView();
+    }
+
+    private void setUpWooWeatherView() {
+        //View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY
+        /*mActivityWooWeatherBinding.svParent.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                LogUtilsWoo.Log(TAG, "onScrollChange--->  scrollY = " + scrollY);
+                mActivityWooWeatherBinding.wooWeatherView.scrollTo(scrollX, scrollY);
+            }
+        });*/
     }
 
     public static WooWeatherViewModel obtainViewModel(AppCompatActivity activity) {
@@ -163,16 +180,21 @@ public class WooWeatherActivity extends AppCompatActivity {
         return viewModel;
     }
 
-    private void setupListAdapter(){
-        RecyclerView rvDaily=mActivityWooWeatherBinding.rvDaily;
-        dailyAdapter=new DailyAdapter(new ArrayList<DailyBean.DataBean>());
-        rvDaily.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+    private void setupListAdapter() {
+        RecyclerView rvDaily = mActivityWooWeatherBinding.rvDaily;
+        dailyAdapter = new DailyAdapter(new ArrayList<DailyBean.DataBean>());
+        rvDaily.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvDaily.setAdapter(dailyAdapter);
 
-        RecyclerView rvHourly=mActivityWooWeatherBinding.rvHourly;
-        hourlyAdapter=new HourlyAdapter(new ArrayList<HourlyBean.DataBean>());
-        rvHourly.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        RecyclerView rvHourly = mActivityWooWeatherBinding.rvHourly;
+        hourlyAdapter = new HourlyAdapter(new ArrayList<HourlyBean.DataBean>());
+        rvHourly.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvHourly.setAdapter(hourlyAdapter);
+
+        RecyclerView rvToday = mActivityWooWeatherBinding.rvTodayDetail;
+        todayAdapter = new TodayAdapter(new ArrayList<CurrentlyBean.DesAndValue>());
+        rvToday.setLayoutManager(new LinearLayoutManager(this));
+        rvToday.setAdapter(todayAdapter);
     }
 
     private void setupSnackbar() {

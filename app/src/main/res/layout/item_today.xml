@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="today"
+            type="com.shichen.wooweather.data.CurrentlyBean.DesAndValue" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_tag"
+            android:layout_width="@dimen/dailyListWindSpeedSize"
+            android:layout_height="@dimen/dailyListWindSpeedSize"
+            app:layout_constraintBottom_toBottomOf="@id/tv_today_des"
+            app:layout_constraintTop_toTopOf="@+id/tv_today_des"
+            app:vectorResId="@{today.iconResId}" />
+
+        <TextView
+            android:id="@+id/tv_today_des"
+            style="@style/dailyDes"
+            android:layout_marginLeft="@dimen/areaNameMarginLeft"
+            android:text="@{today.desStr}"
+            app:layout_constraintLeft_toRightOf="@id/iv_tag" />
+
+        <TextView
+            android:id="@+id/tv_today_value"
+            style="@style/dailyDes"
+            android:text="@{today.valueStr}"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="@color/colorWhite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_today_des"
+            app:layout_constraintRight_toRightOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.graphics.drawable.Drawable;
@@ -42,8 +43,12 @@ public class WooWeatherViewModel extends AndroidViewModel {
     public final ObservableField<CurrentlyBean> mCurrentlyBean = new ObservableField<>();
     public final ObservableList<DailyBean.DataBean> mDailyBean = new ObservableArrayList<>();
     public final ObservableList<HourlyBean.DataBean> mHourlyList=new ObservableArrayList<>();
+    public final ObservableList<CurrentlyBean.DesAndValue> mDesAndValueList=new ObservableArrayList<>();
     public final ObservableField<Drawable> mWeatherIcon = new ObservableField<>();
     public final ObservableField<String> query = new ObservableField<>();
+    public final ObservableBoolean mDailyShow=new ObservableBoolean();
+    public final ObservableBoolean mHourlyShow=new ObservableBoolean();
+    public final ObservableBoolean mTodayShow=new ObservableBoolean();
 
     public WooWeatherViewModel(@NonNull Application application, CityDesRepository mCityDesRepository, ForecastWeatherRepository mForecastWeatherRepository) {
         super(application);
@@ -51,6 +56,9 @@ public class WooWeatherViewModel extends AndroidViewModel {
         this.mCityDesRepository = mCityDesRepository;
         this.mForecastWeatherRepository = mForecastWeatherRepository;
         this.mLocationHelper = LocationHelper.getInstance((Application) mContext);
+        mDailyShow.set(false);
+        mHourlyShow.set(false);
+        mTodayShow.set(false);
     }
 
     public void start() {
@@ -101,11 +109,28 @@ public class WooWeatherViewModel extends AndroidViewModel {
                 DailyBean dailyBean = GsonUtils.getInstance().get().fromJson(forecastWeather.getDaily(), DailyBean.class);
                 HourlyBean hourlyBean=GsonUtils.getInstance().get().fromJson(forecastWeather.getHourly(),HourlyBean.class);
                 mCurrentlyBean.set(currentlyBean);
+                mDesAndValueList.clear();
+                mDesAndValueList.addAll(currentlyBean.desAndValueList());
+                if (mCurrentlyBean.get()!=null){
+                    mTodayShow.set(true);
+                }else {
+                    mTodayShow.set(false);
+                }
                 mWeatherIcon.set(mContext.getResources().getDrawable(currentlyBean.getIconResId()));
                 mDailyBean.clear();
                 mDailyBean.addAll(dailyBean.getData());
+                if (mDailyBean.size()>0){
+                    mDailyShow.set(true);
+                }else {
+                    mDailyShow.set(false);
+                }
                 mHourlyList.clear();
                 mHourlyList.addAll(hourlyBean.getData());
+                if (mHourlyList.size()>0){
+                    mHourlyShow.set(true);
+                }else {
+                    mHourlyShow.set(false);
+                }
             }
 
             @Override

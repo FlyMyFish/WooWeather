@@ -23,6 +23,6 @@
     <dimen name="dailyWeatherIconMargin">3dp</dimen>
     <dimen name="dailyListMargin">12dp</dimen>
     <dimen name="dailyListMarginTop">16dp</dimen>
-    <dimen name="dailyListWindSpeedSize">10dp</dimen>
+    <dimen name="dailyListWindSpeedSize">16dp</dimen>
     <dimen name="titleSize">15dp</dimen>
 </resources>

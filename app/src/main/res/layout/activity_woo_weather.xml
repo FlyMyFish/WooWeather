@@ -3,150 +3,196 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewmodel"
             type="com.shichen.wooweather.weather.WooWeatherViewModel" />
     </data>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
 
-        <android.support.constraint.ConstraintLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/sv_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_city_name"
-                style="@style/CityName"
-                android:layout_marginLeft="@dimen/cityNameMarginLeft"
-                android:layout_marginTop="@dimen/cityNameMarginTop"
-                android:text="@{viewmodel.mCityDes.get().queryStr}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_area_name"
-                style="@style/AreaName"
-                android:layout_marginLeft="@dimen/areaNameMarginLeft"
-                android:text="@{viewmodel.mCityDes.get().name}"
-                app:layout_constraintLeft_toRightOf="@id/tv_city_name"
-                app:layout_constraintTop_toTopOf="@id/tv_city_name" />
-
-            <TextView
-                style="@style/StreetName"
-                android:text="@{viewmodel.mCityDes.get().street}"
-                app:layout_constraintBottom_toBottomOf="@id/tv_city_name"
-                app:layout_constraintLeft_toLeftOf="@id/tv_area_name" />
-
-            <TextView
-                android:id="@+id/tv_air_tem"
-                style="@style/AirTem"
-                android:layout_marginTop="@dimen/airTemMarginTop"
-                android:text="@{viewmodel.mCurrentlyBean.get().getTemperature()}"
-                app:layout_constraintLeft_toLeftOf="@id/tv_city_name"
-                app:layout_constraintTop_toBottomOf="@id/tv_city_name" />
-
-            <TextView
-                android:id="@+id/tv_summary_des"
-                style="@style/SummaryDes"
-                android:layout_marginLeft="@dimen/summaryMarginLeft"
-                android:layout_marginTop="@dimen/summaryMarginTop"
-                android:text="@{viewmodel.mCurrentlyBean.get().summary}"
-                app:layout_constraintLeft_toRightOf="@id/tv_air_tem"
-                app:layout_constraintTop_toTopOf="@id/tv_air_tem" />
-
-            <TextView
-                android:id="@+id/tv_feel_tem"
-                style="@style/FeelTem"
-                android:text="@{viewmodel.mCurrentlyBean.get().getApparentTemperature()}"
-                app:layout_constraintBottom_toBottomOf="@id/tv_air_tem"
-                app:layout_constraintLeft_toLeftOf="@id/tv_summary_des"
-                app:layout_constraintTop_toTopOf="@id/tv_air_tem" />
-
-            <TextView
-                android:id="@+id/tv_humidity"
-                style="@style/Humidity"
-                android:layout_marginBottom="@dimen/humidityMarginBottom"
-                android:text="@{viewmodel.mCurrentlyBean.get().getHumidity()}"
-                app:layout_constraintBottom_toBottomOf="@id/tv_air_tem"
-                app:layout_constraintLeft_toLeftOf="@id/tv_summary_des" />
-
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/iv_weather"
-                android:layout_width="@dimen/weatherIconSize"
-                android:layout_height="@dimen/weatherIconSize"
-                android:layout_marginRight="@dimen/weatherIconMarginRight"
-                android:src="@{viewmodel.mWeatherIcon.get()}"
-                app:layout_constraintBottom_toBottomOf="@id/tv_air_tem"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_air_tem" />
-
-            <TextView
-                android:id="@+id/tv_future"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/cityNameMarginLeft"
-                android:layout_marginTop="80dp"
-                android:text="未来七天"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/titleSize"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_air_tem" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_daily"
+            <com.shichen.wooweather.weather.WooWeatherView
+                android:id="@+id/woo_weather_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dailyListMargin"
-                android:layout_marginRight="@dimen/dailyListMargin"
-                android:layout_marginTop="@dimen/dailyListMarginTop"
-                app:daily="@{viewmodel.mDailyBean}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_future" />
-
-            <TextView
-                android:id="@+id/tv_hourly_future"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/cityNameMarginLeft"
-                android:layout_marginTop="@dimen/dailyListMarginTop"
-                android:text="未来24小时"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/titleSize"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rv_daily" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_hourly"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:layout_marginLeft="@dimen/dailyListMargin"
-                android:layout_marginRight="@dimen/dailyListMargin"
-                android:layout_marginTop="@dimen/dailyListMarginTop"
-                app:hourly="@{viewmodel.mHourlyList}"
-                app:layout_constraintBottom_toTopOf="@+id/tv_api_tag"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_hourly_future" />
-
-            <TextView
-                android:id="@+id/tv_api_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:autoLink="web"
-                android:text="https://darksky.net"
-                android:textColor="@color/colorWhite"
-                android:textSize="@dimen/summaryDes"
-                android:textStyle="bold"
+                android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_hourly" />
-        </android.support.constraint.ConstraintLayout>
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true">
+
+                <TextView
+                    android:id="@+id/tv_city_name"
+                    style="@style/CityName"
+                    android:layout_marginTop="42dp"
+                    android:layout_marginLeft="@dimen/cityNameMarginLeft"
+                    android:text="@{viewmodel.mCityDes.get().queryStr}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_area_name"
+                    style="@style/AreaName"
+                    android:layout_marginLeft="@dimen/areaNameMarginLeft"
+                    android:text="@{viewmodel.mCityDes.get().name}"
+                    app:layout_constraintLeft_toRightOf="@id/tv_city_name"
+                    app:layout_constraintTop_toTopOf="@id/tv_city_name" />
+
+                <TextView
+                    style="@style/StreetName"
+                    android:text="@{viewmodel.mCityDes.get().street}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_city_name"
+                    app:layout_constraintLeft_toLeftOf="@id/tv_area_name" />
+
+                <TextView
+                    android:id="@+id/tv_air_tem"
+                    style="@style/AirTem"
+                    android:layout_marginTop="@dimen/airTemMarginTop"
+                    android:text="@{viewmodel.mCurrentlyBean.get().getTemperature()}"
+                    app:layout_constraintLeft_toLeftOf="@id/tv_city_name"
+                    app:layout_constraintTop_toBottomOf="@id/tv_city_name" />
+
+                <TextView
+                    android:id="@+id/tv_summary_des"
+                    style="@style/SummaryDes"
+                    android:layout_marginLeft="@dimen/summaryMarginLeft"
+                    android:layout_marginTop="@dimen/summaryMarginTop"
+                    android:text="@{viewmodel.mCurrentlyBean.get().summary}"
+                    app:layout_constraintLeft_toRightOf="@id/tv_air_tem"
+                    app:layout_constraintTop_toTopOf="@id/tv_air_tem" />
+
+                <TextView
+                    android:id="@+id/tv_feel_tem"
+                    style="@style/FeelTem"
+                    android:text="@{viewmodel.mCurrentlyBean.get().getApparentTemperature()}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_air_tem"
+                    app:layout_constraintLeft_toLeftOf="@id/tv_summary_des"
+                    app:layout_constraintTop_toTopOf="@id/tv_air_tem" />
+
+                <TextView
+                    android:id="@+id/tv_humidity"
+                    style="@style/Humidity"
+                    android:layout_marginBottom="@dimen/humidityMarginBottom"
+                    android:text="@{viewmodel.mCurrentlyBean.get().getHumidity()}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_air_tem"
+                    app:layout_constraintLeft_toLeftOf="@id/tv_summary_des" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_weather"
+                    android:layout_width="@dimen/weatherIconSize"
+                    android:layout_height="@dimen/weatherIconSize"
+                    android:layout_marginRight="@dimen/weatherIconMarginRight"
+                    android:src="@{viewmodel.mWeatherIcon.get()}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_air_tem"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_air_tem" />
+
+                <TextView
+                    android:id="@+id/tv_future"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/cityNameMarginLeft"
+                    android:layout_marginTop="100dp"
+                    android:text="未来七天"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/titleSize"
+                    android:visibility="@{viewmodel.mDailyShow ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_air_tem" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_daily"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dailyListMargin"
+                    android:layout_marginRight="@dimen/dailyListMargin"
+                    android:layout_marginTop="@dimen/dailyListMarginTop"
+                    android:visibility="@{viewmodel.mDailyShow ? View.VISIBLE : View.GONE}"
+                    app:daily="@{viewmodel.mDailyBean}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_future" />
+
+                <TextView
+                    android:id="@+id/tv_hourly_future"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/cityNameMarginLeft"
+                    android:layout_marginTop="@dimen/dailyListMarginTop"
+                    android:text="未来24小时"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/titleSize"
+                    android:visibility="@{viewmodel.mHourlyShow ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_daily" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_hourly"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginLeft="@dimen/dailyListMargin"
+                    android:layout_marginRight="@dimen/dailyListMargin"
+                    android:layout_marginTop="@dimen/dailyListMarginTop"
+                    android:visibility="@{viewmodel.mHourlyShow ? View.VISIBLE : View.GONE}"
+                    app:hourly="@{viewmodel.mHourlyList}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_hourly_future" />
+
+                <TextView
+                    android:id="@+id/tv_today_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/cityNameMarginLeft"
+                    android:layout_marginTop="@dimen/dailyListMarginTop"
+                    android:text="今天"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/titleSize"
+                    android:visibility="@{viewmodel.mTodayShow ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_hourly" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_today_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dailyListMargin"
+                    android:layout_marginRight="@dimen/dailyListMargin"
+                    android:layout_marginTop="@dimen/dailyListMarginTop"
+                    android:visibility="@{viewmodel.mTodayShow ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_today_detail"
+                    app:today="@{viewmodel.mDesAndValueList}" />
+
+                <TextView
+                    android:id="@+id/tv_api_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginTop="24dp"
+                    android:autoLink="web"
+                    android:text="https://darksky.net"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/summaryDes"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_today_detail" />
+            </android.support.constraint.ConstraintLayout>
+        </FrameLayout>
     </ScrollView>
 </layout>

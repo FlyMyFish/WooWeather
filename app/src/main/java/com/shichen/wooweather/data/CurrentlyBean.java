@@ -53,15 +53,25 @@ public class CurrentlyBean {
 
     public List<DesAndValue> desAndValueList() {
         List<DesAndValue> desAndValueList = new ArrayList<>();
-        desAndValueList.add(new DesAndValue("空气温度:", temperature + "℃"));
-        desAndValueList.add(new DesAndValue("体感温度:", apparentTemperature + "℃"));
-        desAndValueList.add(new DesAndValue("空气湿度:", humidity * 100 + "%"));
-        desAndValueList.add(new DesAndValue("降水量:", precipIntensity + "mm/h"));
-        desAndValueList.add(new DesAndValue("降水概率:", precipProbability + ""));
-        desAndValueList.add(new DesAndValue("紫外线:", uvIndex + ""));
-        desAndValueList.add(new DesAndValue("能见度", visibility + ""));
-        desAndValueList.add(new DesAndValue("臭氧密度:", ozone + ""));
+        desAndValueList.add(new DesAndValue("风速:", windSpeed + "m/s", R.drawable.ic_wind_speed));
+        desAndValueList.add(new DesAndValue("能见度:", DoubleUtils.removePointUp(visibility) + "km", R.drawable.ic_visibility_miles));
+        desAndValueList.add(new DesAndValue("云层覆盖率:", DoubleUtils.removePointUp(cloudCover * 100) + "%", R.drawable.ic_weather_cloudy));
+        desAndValueList.add(new DesAndValue("紫外线:", displayUV(), R.drawable.ic_wave));
         return desAndValueList;
+    }
+
+    public String displayUV() {
+        if (uvIndex <= 2) {
+            return "低";
+        } else if (uvIndex <= 5) {
+            return "中等";
+        } else if (uvIndex <= 7) {
+            return "高";
+        } else if (uvIndex <= 10) {
+            return "很高";
+        } else {
+            return "极高";
+        }
     }
 
     public String getPrecipIntensityError() {
@@ -216,10 +226,20 @@ public class CurrentlyBean {
     public static class DesAndValue {
         public String desStr;
         public String valueStr;
+        public int iconResId;
 
-        public DesAndValue(String desStr, String valueStr) {
+        public DesAndValue(String desStr, String valueStr, int iconResId) {
             this.desStr = desStr;
             this.valueStr = valueStr;
+            this.iconResId = iconResId;
+        }
+
+        public int getIconResId() {
+            return iconResId;
+        }
+
+        public void setIconResId(int iconResId) {
+            this.iconResId = iconResId;
         }
 
         public String getDesStr() {
