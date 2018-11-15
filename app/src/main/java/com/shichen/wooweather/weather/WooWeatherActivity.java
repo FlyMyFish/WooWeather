@@ -160,14 +160,7 @@ public class WooWeatherActivity extends AppCompatActivity {
     }
 
     private void setUpWooWeatherView() {
-        //View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY
-        /*mActivityWooWeatherBinding.svParent.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                LogUtilsWoo.Log(TAG, "onScrollChange--->  scrollY = " + scrollY);
-                mActivityWooWeatherBinding.wooWeatherView.scrollTo(scrollX, scrollY);
-            }
-        });*/
+        //mActivityWooWeatherBinding.wooWeatherView.setImageDrawable(new WooWeatherDrawable(mActivityWooWeatherBinding.wooWeatherView));
     }
 
     public static WooWeatherViewModel obtainViewModel(AppCompatActivity activity) {

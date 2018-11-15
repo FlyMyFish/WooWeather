@@ -4,33 +4,33 @@ import android.content.Context;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.CornerPathEffect;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.Shader;
-import android.util.AttributeSet;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.view.View;
 
 /**
  * @author shichen 754314442@qq.com
- * Created by Administrator on 2018/11/14.
+ * Created by Administrator on 2018/11/15.
  */
-public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHolder.Callback {
-    private static final String TAG = "WooWeatherView";
+public class WooWeatherDrawable extends Drawable {
+    private final String TAG = "WooWeatherDrawable";
+    private int mScrollY;
+    private View parent;
     private Context mContext;
     private int mDensity;
-    private SurfaceHolder mHolder; // 用于控制SurfaceView
-    private Thread t; // 声明一条线程
-    private boolean flag; // 线程运行的标识，用于控制线程
-    private Canvas mCanvas; // 声明一张画布
     private Paint mPaint;
-    private int mScrollY;
     private int mScreenHeight;
     private int mSurfaceWidth;
     private int mSurfaceHeight;
@@ -50,60 +50,13 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
     public final int[] sunColors = new int[]{0xffFFFDE6};
     public final int[] mountainColors = new int[]{MOUNTAIN_COLOR, AFTERNOON_MOUNTAIN_COLOR, NIGHT_MOUNTAIN_COLOR};
 
-    public WooWeatherView(Context context) {
-        this(context, null);
-    }
-
-    public WooWeatherView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        this.mContext = context;
-        this.mDensity = (int) context.getResources().getDisplayMetrics().density;
-        this.mScreenHeight = context.getResources().getDisplayMetrics().heightPixels;
-        setZOrderOnTop(false);
-        mHolder = getHolder();
-        mHolder.addCallback(this);
-        setFocusable(true);
-        setFocusableInTouchMode(true);
-        this.setKeepScreenOn(true);
+    public WooWeatherDrawable(View parent) {
+        this.parent = parent;
+        mContext = parent.getContext();
+        mDensity = (int) mContext.getResources().getDisplayMetrics().density;
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        t = new Thread(this); // 创建一个线程对象
-        flag = true; // 把线程运行的标识设置成true
-        t.start(); // 启动线程
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        this.mSurfaceWidth = width;
-        this.mSurfaceHeight = height;
-        mWaterLeftX = 0;
-        mWaterLeftY = mScreenHeight / 5 * 2;
-        mWaterRightX = mSurfaceWidth;
-        mWaterRightY = mScreenHeight / 5 * 2 - (int) mDensity * 10;
-        mLeftMountainHeight = mScreenHeight / 5;
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        flag = false; // 把线程运行的标识设置成false
-    }
-
-    /**
-     * 自定义一个方法，在画布上画一个圆
-     */
-    public void doDraw() {
-        mCanvas = mHolder.lockCanvas(); // 获得画布对象，开始对画布画画
-        mCanvas.drawColor(Color.WHITE);
-        drawSky();
-        drawSun();
-        drawLeftMountain();
-        drawWater();
-        drawReflection();
-        mHolder.unlockCanvasAndPost(mCanvas); // 完成画画，把画布显示在屏幕上
+        this.mScreenHeight = mContext.getResources().getDisplayMetrics().heightPixels;
     }
 
     private void reStorePaint() {
@@ -115,7 +68,24 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
         }
     }
 
-    private void drawSky() {
+    @Override
+    public void draw(@NonNull Canvas canvas) {
+        this.mSurfaceWidth = parent.getWidth();
+        this.mSurfaceHeight = parent.getHeight();
+        mWaterLeftX = 0;
+        mWaterLeftY = mScreenHeight / 5 * 2;
+        mWaterRightX = mSurfaceWidth;
+        mWaterRightY = mScreenHeight / 5 * 2 - mDensity * 10;
+        mLeftMountainHeight = mScreenHeight / 5;
+        canvas.drawColor(Color.WHITE);
+        drawSky(canvas);
+        drawSun(canvas);
+        drawLeftMountain(canvas);
+        drawWater(canvas);
+        drawReflection(canvas);
+    }
+
+    private void drawSky(Canvas mCanvas) {
         Rect skyRect = new Rect(0, -mScrollY, mSurfaceWidth, mWaterLeftY - mScrollY);
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(skyColors[0]);
@@ -131,7 +101,7 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
         reStorePaint();
     }
 
-    private void drawSun() {
+    private void drawSun(Canvas mCanvas) {
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(sunColors[0]);
         mCanvas.drawCircle(mWaterLeftX + mSurfaceWidth / 255 * 24,
@@ -140,7 +110,7 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
         reStorePaint();
     }
 
-    private void drawWater() {
+    private void drawWater(Canvas mCanvas) {
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(waterColors[0]);
         int sc = mCanvas.saveLayer(mWaterLeftX, mWaterRightY - mScrollY - ((mDensity * 5)), mWaterRightX, mSurfaceHeight, mPaint, Canvas.ALL_SAVE_FLAG);
@@ -164,7 +134,7 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
         reStorePaint();
     }
 
-    private void drawLeftMountain() {
+    private void drawLeftMountain(Canvas mCanvas) {
         Path mountainPath = new Path();
         mountainPath.moveTo(mWaterLeftX, mWaterLeftY - mScrollY);
         mountainPath.lineTo(mWaterLeftX, mWaterLeftY - mScrollY - mLeftMountainHeight);
@@ -236,10 +206,10 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
         reStorePaint();
     }
 
-    public void drawReflection() {
+    public void drawReflection(Canvas mCanvas) {
         int offset = 35;
         int offsetX = 5;
-        float blurValue = 5.0f;
+        float blurValue=5.0f;
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(0xffFCEBC6);
         mPaint.setMaskFilter(new BlurMaskFilter(blurValue, BlurMaskFilter.Blur.NORMAL));
@@ -307,20 +277,17 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
     }
 
     @Override
-    public void run() {
-        while (flag) {
-            doDraw(); // 调用自定义画画方法
-            try {
-                Thread.sleep(16); // 让线程休息
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    public void setAlpha(int alpha) {
+
     }
 
     @Override
-    public void scrollTo(int x, int y) {
-        //mScrollY = y;
-        super.scrollTo(x,y);
+    public void setColorFilter(@Nullable ColorFilter colorFilter) {
+
+    }
+
+    @Override
+    public int getOpacity() {
+        return PixelFormat.TRANSPARENT;
     }
 }

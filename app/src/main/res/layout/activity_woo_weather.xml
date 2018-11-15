@@ -11,7 +11,7 @@
     </data>
 
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/sv_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,12 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.shichen.wooweather.weather.WooWeatherView
+            <com.shichen.wooweather.weather.WooWeatherPlatformView
                 android:id="@+id/woo_weather_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                android:layout_height="match_parent"/>
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -194,5 +192,5 @@
                     app:layout_constraintTop_toBottomOf="@+id/rv_today_detail" />
             </android.support.constraint.ConstraintLayout>
         </FrameLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </layout>
