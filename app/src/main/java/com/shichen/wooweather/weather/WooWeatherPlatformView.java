@@ -256,7 +256,7 @@ public class WooWeatherPlatformView extends View{
         mPaint.setColor(0xffCC8752);
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setPathEffect(new CornerPathEffect(10));
-        int sc = mCanvas.saveLayer(-mDensity * offsetX, mWaterLeftY - mScrollY - mDensity * offset, mWaterRightX, mWaterLeftY - mScrollY + mLeftMountainHeight, mPaint, Canvas.ALL_SAVE_FLAG);
+        mCanvas.saveLayer(-mDensity * offsetX, mWaterLeftY - mScrollY - mDensity * offset, mWaterRightX, mWaterLeftY - mScrollY + mLeftMountainHeight, mPaint, Canvas.ALL_SAVE_FLAG);
         mPaint.setMaskFilter(new BlurMaskFilter(blurValue, BlurMaskFilter.Blur.NORMAL));
         mCanvas.drawPath(mountainPath, mPaint);
         reStorePaint();
@@ -271,6 +271,7 @@ public class WooWeatherPlatformView extends View{
         waterPath.close();
         mCanvas.drawPath(waterPath, mPaint);
         reStorePaint();
-        mCanvas.restoreToCount(sc);
+        mCanvas.restore();
+
     }
 }

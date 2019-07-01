@@ -49,6 +49,7 @@ public class WooWeatherViewModel extends AndroidViewModel {
     public final ObservableBoolean mDailyShow=new ObservableBoolean();
     public final ObservableBoolean mHourlyShow=new ObservableBoolean();
     public final ObservableBoolean mTodayShow=new ObservableBoolean();
+    public final ObservableBoolean mLoading=new ObservableBoolean();
 
     public WooWeatherViewModel(@NonNull Application application, CityDesRepository mCityDesRepository, ForecastWeatherRepository mForecastWeatherRepository) {
         super(application);
@@ -59,6 +60,7 @@ public class WooWeatherViewModel extends AndroidViewModel {
         mDailyShow.set(false);
         mHourlyShow.set(false);
         mTodayShow.set(false);
+        mLoading.set(true);
     }
 
     public void start() {
@@ -99,6 +101,7 @@ public class WooWeatherViewModel extends AndroidViewModel {
     }
 
     public void getWeatherData() {
+        mLoading.set(true);
         CityDes curCityDes = mCityDes.get();
         checkNotNull(curCityDes);
         mForecastWeatherRepository.loadForecastWeather(curCityDes.getQueryStr(), curCityDes.getLatitude(), curCityDes.getLongitude(), new ForecastWeatherSource.LoadWeatherCallBack() {
@@ -131,11 +134,13 @@ public class WooWeatherViewModel extends AndroidViewModel {
                 }else {
                     mHourlyShow.set(false);
                 }
+                mLoading.set(false);
             }
 
             @Override
             public void onDataNotAvailable(String msg) {
                 mSnackbarText.setValue(msg);
+                mLoading.set(false);
             }
         });
     }
