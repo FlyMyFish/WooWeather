@@ -13,7 +13,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.Shader;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -37,8 +36,14 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
     private int mSurfaceHeight;
     private int mWaterLeftX, mWaterLeftY, mWaterRightX, mWaterRightY, mLeftMountainHeight;
     private static final int MORNING_COLOR = 0xffFFAF6A;
+    private static final int MORNING_LIGHT_COLOR = 0xffFCD79B;
     private static final int MORNING_SKY_COLOR = 0xffF27732;
+    private static final int MORNING_SKY_LIGHT_COLOR = 0xffFFEDA7;
     private static final int MOUNTAIN_COLOR = 0xff330300;
+    private static final int MOUNTAIN_LIGHT_COLOR = 0xffB72C00;
+    private static final int MOUNTAIN_COVER_COLOR = 0xffB93000;
+    private static final int REFLECTION_SUN_MORNING_COLOR = 0xffFCEBC6;
+    private static final int REFLECTION_MOUNTAIN_MORNING_COLOR=0xffCC8752;
     private static final int AFTERNOON_COLOR = 0xff86EBF3;
     private static final int AFTERNOON_SKY_COLOR = 0xff3BBFFD;
     private static final int AFTERNOON_MOUNTAIN_COLOR = 0xff2EACEA;
@@ -124,7 +129,7 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
         RadialGradient radialGradient = new RadialGradient(mWaterLeftX + mSurfaceWidth / 255 * 24,
                 mWaterLeftY - mScrollY - mLeftMountainHeight + mLeftMountainHeight / 80 * 26,
                 mSurfaceWidth,
-                0xffFFEDA7, MORNING_SKY_COLOR, Shader.TileMode.CLAMP);
+                MORNING_SKY_LIGHT_COLOR, MORNING_SKY_COLOR, Shader.TileMode.CLAMP);
         mPaint.setShader(radialGradient);
         mCanvas.drawCircle(mWaterLeftX + mSurfaceWidth / 255 * 24,
                 mWaterLeftY - mScrollY - mLeftMountainHeight + mLeftMountainHeight / 80 * 26,
@@ -152,7 +157,7 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
         waterPath.lineTo(mWaterLeftX, mSurfaceHeight);
         waterPath.close();
 
-        int[] colors = new int[]{MORNING_COLOR, 0xffFCD79B, MORNING_COLOR};
+        int[] colors = new int[]{MORNING_COLOR, MORNING_LIGHT_COLOR, MORNING_COLOR};
         float[] positions = new float[]{0.0f, 0.5f, 1.0f};
         LinearGradient linearGradient = new LinearGradient(mWaterLeftX + mSurfaceWidth / 255 * 24 - mSurfaceWidth, mWaterLeftY - mScrollY,
                 mWaterLeftX + mSurfaceWidth / 255 * 24 + mSurfaceWidth, mWaterLeftY - mScrollY, colors, positions, Shader.TileMode.CLAMP);
@@ -214,11 +219,11 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
         mCanvas.drawPath(mountainPath, mPaint);
         reStorePaint();
         mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        mPaint.setColor(0xffB93000);
+        mPaint.setColor(MOUNTAIN_COVER_COLOR);
         RadialGradient circleOneGradient = new RadialGradient(mWaterLeftX + mSurfaceWidth / 255 * 50,
                 mWaterLeftY - mScrollY - mLeftMountainHeight,
                 mLeftMountainHeight / 5 * 4,
-                0xffB72C00, MOUNTAIN_COLOR, Shader.TileMode.CLAMP);
+                MOUNTAIN_LIGHT_COLOR, MOUNTAIN_COLOR, Shader.TileMode.CLAMP);
         mPaint.setShader(circleOneGradient);
         mCanvas.drawCircle(mWaterLeftX + mSurfaceWidth / 255 * 50,
                 mWaterLeftY - mScrollY - mLeftMountainHeight,
@@ -227,7 +232,7 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
         RadialGradient circleTwoGradient = new RadialGradient(mWaterLeftX + mSurfaceWidth / 255 * 150,
                 mWaterLeftY - mScrollY - mLeftMountainHeight / 2,
                 mLeftMountainHeight / 2,
-                0xffB72C00, MOUNTAIN_COLOR, Shader.TileMode.CLAMP);
+                MOUNTAIN_LIGHT_COLOR, MOUNTAIN_COLOR, Shader.TileMode.CLAMP);
         mPaint.setShader(circleTwoGradient);
         mCanvas.drawCircle(mWaterLeftX + mSurfaceWidth / 255 * 150,
                 mWaterLeftY - mScrollY - mLeftMountainHeight / 2,
@@ -242,7 +247,7 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
         int offsetX = 5;
         float blurValue = 5.0f;
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(0xffFCEBC6);
+        mPaint.setColor(REFLECTION_SUN_MORNING_COLOR);
         mPaint.setMaskFilter(new BlurMaskFilter(blurValue, BlurMaskFilter.Blur.NORMAL));
         mCanvas.drawCircle(mWaterLeftX - mDensity * offsetX + mSurfaceWidth / 255 * 24,
                 mWaterLeftY - mScrollY + mLeftMountainHeight - mLeftMountainHeight / 80 * 26 - mDensity * offset,
@@ -286,7 +291,7 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
         mountainPath.lineTo(mWaterLeftX - mDensity * offsetX + mSurfaceWidth / 255 * 142, mWaterLeftY - mScrollY + mLeftMountainHeight - mLeftMountainHeight / 80 * 76 - mDensity * offset);
         mountainPath.lineTo(mWaterLeftX - mDensity * offsetX + mSurfaceWidth / 255 * 150, mWaterLeftY - mScrollY + 8 * mDensity - mDensity * offset);
         mountainPath.close();
-        mPaint.setColor(0xffCC8752);
+        mPaint.setColor(REFLECTION_MOUNTAIN_MORNING_COLOR);
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setPathEffect(new CornerPathEffect(10));
         int sc = mCanvas.saveLayer(-mDensity * offsetX, mWaterLeftY - mScrollY - mDensity * offset, mWaterRightX, mWaterLeftY - mScrollY + mLeftMountainHeight, mPaint, Canvas.ALL_SAVE_FLAG);
@@ -322,6 +327,6 @@ public class WooWeatherView extends SurfaceView implements Runnable, SurfaceHold
     @Override
     public void scrollTo(int x, int y) {
         //mScrollY = y;
-        super.scrollTo(x,y);
+        super.scrollTo(x, y);
     }
 }

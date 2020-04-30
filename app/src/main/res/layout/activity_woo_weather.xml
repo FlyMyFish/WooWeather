@@ -10,20 +10,20 @@
             type="com.shichen.wooweather.weather.WooWeatherViewModel" />
     </data>
 
-
-    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/sv_parent"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <com.shichen.wooweather.weather.WooWeatherView
+            android:id="@+id/woo_weather_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent" />
 
-            <com.shichen.wooweather.weather.WooWeatherPlatformView
-                android:id="@+id/woo_weather_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/sv_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -57,8 +57,8 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginRight="@dimen/cityNameMarginLeft"
-                    app:layout_constraintRight_toRightOf="parent"
                     android:visibility="@{viewmodel.mLoading ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_city_name" />
 
                 <TextView
@@ -199,6 +199,6 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rv_today_detail" />
             </android.support.constraint.ConstraintLayout>
-        </FrameLayout>
-    </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.NestedScrollView>
+    </FrameLayout>
 </layout>

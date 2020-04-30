@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class TodayBinding {
     @SuppressWarnings("unchecked")
-    @BindingAdapter("app:today")
+    @BindingAdapter("today")
     public static void setDaily(RecyclerView recyclerView, List<CurrentlyBean.DesAndValue> dataBeanList) {
         TodayAdapter adapter = (TodayAdapter) recyclerView.getAdapter();
         if (adapter != null) {
