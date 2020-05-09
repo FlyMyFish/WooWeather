@@ -4,4 +4,44 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorWhite">#FFFFFF</color>
+
+
+    <color name="waterMorningColor">#FFAF6A</color>
+    <color name="waterMorningLightColor">#FCD79B</color>
+    <color name="waterAfternoonColor">#3695FE</color>
+    <color name="waterAfternoonLightColor">#5CA9FE</color>
+    <color name="waterNightColor">#010354</color>
+    <color name="waterNightLightColor">#024B95</color>
+
+    <color name="skyMorningColor">#F27732</color>
+    <color name="skyMorningLightColor">#FFEDA7</color>
+    <color name="skyAfternoonColor">#2375FE</color>
+    <color name="skyAfternoonLightColor">#88DAF9</color>
+    <color name="skyNightColor">#010474</color>
+    <color name="skyNightLightColor">#0368CD</color>
+
+
+    <color name="mountainMorningColor">#330300</color>
+    <color name="mountainMorningLightColor">#B72C00</color>
+    <color name="mountainAfternoonColor">#013267</color>
+    <color name="mountainAfternoonLightColor">#024B9D</color>
+    <color name="mountainNightColor">#01203F</color>
+    <color name="mountainNightLightColor">#02376C</color>
+
+    <color name="mountainReflectionMorningColor">#CC8752</color>
+    <color name="mountainReflectionAfternoonColor">#0254AE</color>
+    <color name="mountainReflectionNightColor">#024486</color>
+
+    <color name="sunMorningColor">#FFFDE6</color>
+    <color name="sunAfternoonColor">#DDEDFF</color>
+    <color name="sunNightColor">#D3DDFE</color>
+
+    <color name="sunReflectionMorningColor">#FCEBC6</color>
+    <color name="sunReflectionAfternoonColor">#C8E2FF</color>
+    <color name="sunReflectionNightColor">#A6B9FD</color>
+
+    <color name="coverMorningColor"></color>
+    <color name="coverAfternoonColor"></color>
+    <color name="coverNightColor"></color>
+
 </resources>
