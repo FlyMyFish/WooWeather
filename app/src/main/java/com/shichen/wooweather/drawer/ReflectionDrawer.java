@@ -1,4 +1,4 @@
-package com.shichen.wooweather.weather;
+package com.shichen.wooweather.drawer;
 
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+
+import com.shichen.wooweather.weather.ColorManager;
 
 public class ReflectionDrawer {
     private Path mountainPath = new Path();

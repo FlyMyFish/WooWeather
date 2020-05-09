@@ -1,8 +1,10 @@
-package com.shichen.wooweather.weather;
+package com.shichen.wooweather.drawer;
 
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import com.shichen.wooweather.weather.ColorManager;
 
 public class SunDrawer {
     public void draw(Paint mPaint, Canvas mCanvas, int mWaterLeftX, int mWaterLeftY, int mLeftMountainHeight, int mSurfaceWidth, int mScrollY, ColorManager mColorManager) {

@@ -1,10 +1,12 @@
-package com.shichen.wooweather.weather;
+package com.shichen.wooweather.drawer;
 
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Shader;
+
+import com.shichen.wooweather.weather.ColorManager;
 
 public class WaterDrawer {
     private Path waterPath = new Path();

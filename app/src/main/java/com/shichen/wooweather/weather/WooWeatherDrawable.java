@@ -11,6 +11,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.shichen.wooweather.drawer.MountainDrawer;
+import com.shichen.wooweather.drawer.ReflectionDrawer;
+import com.shichen.wooweather.drawer.SkyDrawer;
+import com.shichen.wooweather.drawer.SunDrawer;
+import com.shichen.wooweather.drawer.WaterDrawer;
+
 /**
  * @author shichen 754314442@qq.com
  * Created by Administrator on 2018/11/15.

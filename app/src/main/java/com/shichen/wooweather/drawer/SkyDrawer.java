@@ -1,10 +1,12 @@
-package com.shichen.wooweather.weather;
+package com.shichen.wooweather.drawer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.Shader;
+
+import com.shichen.wooweather.weather.ColorManager;
 
 public class SkyDrawer {
     private Rect skyRect = new Rect();

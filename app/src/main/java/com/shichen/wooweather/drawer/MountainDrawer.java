@@ -1,4 +1,4 @@
-package com.shichen.wooweather.weather;
+package com.shichen.wooweather.drawer;
 
 import android.graphics.Canvas;
 import android.graphics.CornerPathEffect;
@@ -9,9 +9,11 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 
+import com.shichen.wooweather.weather.ColorManager;
+
 public class MountainDrawer {
     private Path mountainPath = new Path();
-    public void draw(Paint mPaint,Canvas mCanvas,int mWaterLeftX,int mWaterLeftY,int mScrollY,int mLeftMountainHeight,int mSurfaceWidth,int mDensity,int mWaterRightX,ColorManager mColorManager){
+    public void draw(Paint mPaint, Canvas mCanvas, int mWaterLeftX, int mWaterLeftY, int mScrollY, int mLeftMountainHeight, int mSurfaceWidth, int mDensity, int mWaterRightX, ColorManager mColorManager){
         mountainPath.moveTo(mWaterLeftX, mWaterLeftY - mScrollY);
         mountainPath.lineTo(mWaterLeftX, mWaterLeftY - mScrollY - mLeftMountainHeight);
         mountainPath.lineTo(mWaterLeftX + mSurfaceWidth / 255 * 13, mWaterLeftY - mScrollY - mLeftMountainHeight + mLeftMountainHeight / 80 * 15);
