@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class HourlyBinding {
     @SuppressWarnings("unchecked")
-    @BindingAdapter("app:hourly")
+    @BindingAdapter("hourly")
     public static void setDaily(RecyclerView recyclerView, List<HourlyBean.DataBean> dataBeanList) {
         HourlyAdapter adapter = (HourlyAdapter) recyclerView.getAdapter();
         if (adapter != null) {

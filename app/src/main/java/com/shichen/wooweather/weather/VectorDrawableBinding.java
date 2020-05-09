@@ -9,7 +9,7 @@ import android.support.v7.widget.AppCompatImageView;
  */
 public class VectorDrawableBinding {
     @SuppressWarnings("unchecked")
-    @BindingAdapter("app:vectorResId")
+    @BindingAdapter("vectorResId")
     public static void setVector(AppCompatImageView imageView, int resId) {
         imageView.setBackgroundResource(resId);
     }

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class DailyBinding {
     @SuppressWarnings("unchecked")
-    @BindingAdapter("app:daily")
+    @BindingAdapter("daily")
     public static void setDaily(RecyclerView recyclerView, List<DailyBean.DataBean> dataBeanList) {
         DailyAdapter adapter = (DailyAdapter) recyclerView.getAdapter();
         if (adapter != null) {
