@@ -2,6 +2,7 @@ package com.shichen.wooweather.weather;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
@@ -50,6 +51,7 @@ public class WooWeatherViewModel extends AndroidViewModel {
     public final ObservableBoolean mHourlyShow=new ObservableBoolean();
     public final ObservableBoolean mTodayShow=new ObservableBoolean();
     public final ObservableBoolean mLoading=new ObservableBoolean();
+    public final MutableLiveData<Boolean> refreshing =new MutableLiveData<>();
 
     public WooWeatherViewModel(@NonNull Application application, CityDesRepository mCityDesRepository, ForecastWeatherRepository mForecastWeatherRepository) {
         super(application);
@@ -60,7 +62,8 @@ public class WooWeatherViewModel extends AndroidViewModel {
         mDailyShow.set(false);
         mHourlyShow.set(false);
         mTodayShow.set(false);
-        mLoading.set(true);
+        mLoading.set(false);
+        refreshing.setValue(false);
     }
 
     public void start() {
@@ -97,11 +100,11 @@ public class WooWeatherViewModel extends AndroidViewModel {
     private void readCitySuccess(CityDes cityDes) {
         mCityDes.set(cityDes);
         mCityDesRepository.saveCityDes(cityDes);
-        getWeatherData();
+        mLoading.set(true);
+        refreshing.setValue(true);
     }
 
     public void getWeatherData() {
-        mLoading.set(true);
         CityDes curCityDes = mCityDes.get();
         checkNotNull(curCityDes);
         mForecastWeatherRepository.loadForecastWeather(curCityDes.getQueryStr(), curCityDes.getLatitude(), curCityDes.getLongitude(), new ForecastWeatherSource.LoadWeatherCallBack() {
@@ -135,12 +138,14 @@ public class WooWeatherViewModel extends AndroidViewModel {
                     mHourlyShow.set(false);
                 }
                 mLoading.set(false);
+                refreshing.postValue(false);
             }
 
             @Override
             public void onDataNotAvailable(String msg) {
                 mSnackbarText.setValue(msg);
                 mLoading.set(false);
+                refreshing.postValue(false);
             }
         });
     }

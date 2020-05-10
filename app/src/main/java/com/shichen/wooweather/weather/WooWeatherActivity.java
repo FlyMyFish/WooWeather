@@ -1,6 +1,7 @@
 package com.shichen.wooweather.weather;
 
 import android.Manifest;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -157,6 +158,47 @@ public class WooWeatherActivity extends AppCompatActivity {
         setupListAdapter();
         setupSnackbar();
         setUpWooWeatherView();
+        setUpScrollView();
+        mWooWeatherViewModel.refreshing.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean != null && aBoolean) {
+                    mActivityWooWeatherBinding.srlWeatherInfo.setRefreshing(true);
+                    mWooWeatherViewModel.getWeatherData();
+                } else {
+                    mActivityWooWeatherBinding.srlWeatherInfo.setRefreshing(false);
+                }
+            }
+        });
+    }
+
+    private void setUpScrollView() {
+        mActivityWooWeatherBinding.svParent.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                float slidePercent;
+                if (scrollY <= 400) {
+                    slidePercent = scrollY / 400f;
+                    updateUI(slidePercent);
+                }
+            }
+        });
+    }
+
+    private void updateUI(float slidePercent) {
+        int tvStreetRight = mActivityWooWeatherBinding.tvStreetName.getRight();
+        int tvAreaTop = mActivityWooWeatherBinding.tvAreaName.getTop();
+        int tvTemLeft = getResources().getDimensionPixelSize(R.dimen.cityNameMarginLeft);
+        int tvTemTop = getResources().getDimensionPixelSize(R.dimen.cityNameMarginTop) + mActivityWooWeatherBinding.tvCityName.getHeight();
+        mActivityWooWeatherBinding.tvSummaryDes.setAlpha(1f - slidePercent);//tv_summary_des,tv_feel_tem,tv_humidity
+        mActivityWooWeatherBinding.tvFeelTem.setAlpha(1f - slidePercent);
+        mActivityWooWeatherBinding.tvHumidity.setAlpha(1f - slidePercent);
+        mActivityWooWeatherBinding.tvAirTem.setScaleX(Math.max(1f - slidePercent, 0.5f));
+        mActivityWooWeatherBinding.tvAirTem.setScaleY(Math.max(1f - slidePercent, 0.5f));
+        mActivityWooWeatherBinding.tvAirTem.setX(tvTemLeft + (tvStreetRight - tvTemLeft) * slidePercent);
+        mActivityWooWeatherBinding.tvAirTem.setY(tvTemTop*(1f - slidePercent));
+        mActivityWooWeatherBinding.ivWeather.setScaleX(Math.max(1f - slidePercent, 0.5f));
+        mActivityWooWeatherBinding.ivWeather.setScaleY(Math.max(1f - slidePercent, 0.5f));
     }
 
     private void setUpWooWeatherView() {
