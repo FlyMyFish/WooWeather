@@ -177,8 +177,11 @@ public class WooWeatherActivity extends AppCompatActivity {
             @Override
             public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 float slidePercent;
-                if (scrollY <= 400) {
+                if (scrollY <= 400f) {
                     slidePercent = scrollY / 400f;
+                    updateUI(slidePercent);
+                } else {
+                    slidePercent = 1f;
                     updateUI(slidePercent);
                 }
             }
@@ -187,18 +190,20 @@ public class WooWeatherActivity extends AppCompatActivity {
 
     private void updateUI(float slidePercent) {
         int tvStreetRight = mActivityWooWeatherBinding.tvStreetName.getRight();
-        int tvAreaTop = mActivityWooWeatherBinding.tvAreaName.getTop();
+        int tvCityTop = mActivityWooWeatherBinding.tvCityName.getTop();
+        int tvCityHeight = mActivityWooWeatherBinding.tvCityName.getHeight();
         int tvTemLeft = getResources().getDimensionPixelSize(R.dimen.cityNameMarginLeft);
         int tvTemTop = getResources().getDimensionPixelSize(R.dimen.cityNameMarginTop) + mActivityWooWeatherBinding.tvCityName.getHeight();
-        mActivityWooWeatherBinding.tvSummaryDes.setAlpha(1f - slidePercent);//tv_summary_des,tv_feel_tem,tv_humidity
+        mActivityWooWeatherBinding.tvSummaryDes.setAlpha(1f - slidePercent);
         mActivityWooWeatherBinding.tvFeelTem.setAlpha(1f - slidePercent);
         mActivityWooWeatherBinding.tvHumidity.setAlpha(1f - slidePercent);
         mActivityWooWeatherBinding.tvAirTem.setScaleX(Math.max(1f - slidePercent, 0.5f));
         mActivityWooWeatherBinding.tvAirTem.setScaleY(Math.max(1f - slidePercent, 0.5f));
-        mActivityWooWeatherBinding.tvAirTem.setX(tvTemLeft + (tvStreetRight - tvTemLeft) * slidePercent);
-        mActivityWooWeatherBinding.tvAirTem.setY(tvTemTop*(1f - slidePercent));
+        mActivityWooWeatherBinding.tvAirTem.setX(tvTemLeft + (tvStreetRight - tvTemLeft * 3) * slidePercent);
+        mActivityWooWeatherBinding.tvAirTem.setY(tvTemTop - (tvTemTop - tvCityTop + tvCityHeight) * slidePercent);
         mActivityWooWeatherBinding.ivWeather.setScaleX(Math.max(1f - slidePercent, 0.5f));
         mActivityWooWeatherBinding.ivWeather.setScaleY(Math.max(1f - slidePercent, 0.5f));
+        mActivityWooWeatherBinding.ivWeather.setTranslationY(-(tvTemTop - tvCityTop + tvCityHeight) * slidePercent);
     }
 
     private void setUpWooWeatherView() {
